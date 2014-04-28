@@ -1780,7 +1780,7 @@ static void boxc_destroy(Boxc *boxc)
 
 static Octstr *boxc_route_msg_to_smsc(Boxc *box, Msg *msg)
 {
-	Octstr *os, *smsc_id;
+	Octstr *os = NULL, *smsc_id;
 
 	if (msg->sms.smsc_id != NULL)
 		return msg->sms.smsc_id;
@@ -1788,13 +1788,16 @@ static Octstr *boxc_route_msg_to_smsc(Boxc *box, Msg *msg)
         char *receiver =  octstr_get_cstr(msg->sms.receiver);
         if ( (receiver) && (strlen(receiver) > 0) ) {
                 smsc_id = dict_get(smsc_by_receiver, msg->sms.receiver);
-	        os = octstr_format("receiver:%s", receiver);
-        };
+        }
+	else {
+		receiver = "";
+	}
 
 	if (!smsc_id) {
 	        os = octstr_format("%s:%s", octstr_get_cstr(msg->sms.sender),
 		    octstr_get_cstr(box->boxc_id));
 	        smsc_id = dict_get(smsc_by_sender_smsbox_id, os);
+		octstr_destroy(os);
         };
 	if (!smsc_id)
 		smsc_id = dict_get(smsc_by_sender, msg->sms.sender);
@@ -1805,9 +1808,7 @@ static Octstr *boxc_route_msg_to_smsc(Boxc *box, Msg *msg)
 
 	if (smsc_id)
 		debug("opensmppbox", 0, "routed msg '%s' to smsc '%s'",
-		octstr_get_cstr(os), octstr_get_cstr(smsc_id));
-
-	octstr_destroy(os);
+		receiver, octstr_get_cstr(smsc_id));
 
 	return smsc_id;
 }
