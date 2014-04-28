@@ -1610,7 +1610,7 @@ static void handle_pdu(Connection *conn, Boxc *box, SMPP_PDU *pdu) {
 					if (parts_list) {
 						msg2->sms.dlr_url = concat_msgids(msgid, parts_list);
 					}
-					dlr_add(box->boxc_id, msgid, msg2);
+					dlr_add(box->boxc_id, msgid, msg2, 0);
 					octstr_destroy(msgid);
 					octstr_destroy(msg2->sms.service);
 					msg2->sms.service = hold_service;
@@ -1652,7 +1652,7 @@ static void handle_pdu(Connection *conn, Boxc *box, SMPP_PDU *pdu) {
 					if (parts_list) {
 						msg2->sms.dlr_url = concat_msgids(msgid, parts_list);
 					}
-					dlr_add(box->boxc_id, msgid, msg2);
+					dlr_add(box->boxc_id, msgid, msg2, 0);
 					octstr_destroy(msgid);
 					octstr_destroy(msg2->sms.service);
 					msg2->sms.service = hold_service;
