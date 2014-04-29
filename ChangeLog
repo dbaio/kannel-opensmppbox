@@ -1,3 +1,7 @@
+2014-04-18 Rene Kluwen <rene.kluwen at chimit.nl>
+    Fixed memory leak, hopefully for good.
+    Added fix for dlr_add to use extra parameter use_dst.
+
 2013-11-12 Rene Kluwen <rene.kluwen at chimit.nl>
     Patch by Juno Lopez that allows for segmented reading of pdus
     when they are split over different tcp packets under high load.
