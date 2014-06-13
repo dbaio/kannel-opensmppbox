@@ -1775,6 +1775,7 @@ static void boxc_destroy(Boxc *boxc)
 	    octstr_destroy(boxc->client_ip);
     dict_destroy(boxc->msg_acks);
     dict_destroy(boxc->deliver_acks);
+    octstr_destroy(boxc->sms_service);
     gw_free(boxc);
 }
 
@@ -2376,6 +2377,8 @@ static void init_smsc_routes(Cfg *cfg)
             octstr_destroy(shortcodes);
         }
         octstr_destroy(smsc_id);
+        octstr_destroy(boxc_ids);
+        octstr_destroy(shortcodes);
     }
 
     gwlist_destroy(list, NULL);
